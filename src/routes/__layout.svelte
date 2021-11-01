@@ -1,5 +1,5 @@
 <script>
-    import 'simpledotcss/simple.min.css'
+	import '$lib/css/app.css';
 </script>
 
-<slot/>
+<slot />

@@ -1,9 +1,5 @@
 import { dev } from "$app/env";
 
-
-//set to true for debugging output
-let debug = dev;
-
 // our current position
 let positionCurrent = {
     lat: null,
@@ -162,7 +158,7 @@ export function onHeadingChange(event) {
     // we have a browser that reports device heading and orientation
 
 
-    if (debug) {
+    if (dev) {
         debugOrientation.textContent = orientation;
     }
 
@@ -389,7 +385,7 @@ if (screen.width > screen.height) {
 } else {
     defaultOrientation = "portrait";
 }
-if (debug) {
+if (dev) {
     debugOrientationDefault.textContent = defaultOrientation;
 }
 

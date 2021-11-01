@@ -2,10 +2,10 @@ import { dev } from "$app/env";
 
 
 //set to true for debugging output
-var debug = dev;
+let debug = dev;
 
 // our current position
-var positionCurrent = {
+let positionCurrent = {
     lat: null,
     lng: null,
     hng: null
@@ -13,51 +13,51 @@ var positionCurrent = {
 
 
 // the outer part of the compass that rotates
-var rose = document.getElementById("rose");
+let rose = document.getElementById("rose");
 
 
 // elements that ouput our position
-var positionLat = document.getElementById("position-lat");
-var positionLng = document.getElementById("position-lng");
-var positionHng = document.getElementById("position-hng");
+let positionLat = document.getElementById("position-lat");
+let positionLng = document.getElementById("position-lng");
+let positionHng = document.getElementById("position-hng");
 
 
 // debug outputs
-var debugOrientation = document.getElementById("debug-orientation");
-var debugOrientationDefault = document.getElementById("debug-orientation-default");
+let debugOrientation = document.getElementById("debug-orientation");
+let debugOrientationDefault = document.getElementById("debug-orientation-default");
 
 
 // info popup elements, pus buttons that open popups
-var popup = document.getElementById("popup");
-var popupContents = document.getElementById("popup-contents");
-var popupInners = document.querySelectorAll(".popup__inner");
-var btnsPopup = document.querySelectorAll(".btn-popup");
+let popup = document.getElementById("popup");
+let popupContents = document.getElementById("popup-contents");
+let popupInners = document.querySelectorAll(".popup__inner");
+let btnsPopup = document.querySelectorAll(".btn-popup");
 
 
 // buttons at the bottom of the screen
-var btnLockOrientation = document.getElementById("btn-lock-orientation");
-var btnNightmode = document.getElementById("btn-nightmode");
-var btnMap = document.getElementById("btn-map");
-var btnInfo = document.getElementById("btn-info");
+let btnLockOrientation = document.getElementById("btn-lock-orientation");
+let btnNightmode = document.getElementById("btn-nightmode");
+let btnMap = document.getElementById("btn-map");
+let btnInfo = document.getElementById("btn-info");
 
 
 // if we have shown the heading unavailable warning yet
-var warningHeadingShown = false;
+let warningHeadingShown = false;
 
 
 // switches keeping track of our current app state
-var isOrientationLockable = false;
-var isOrientationLocked = false;
-var isNightMode = false;
+let isOrientationLockable = false;
+let isOrientationLocked = false;
+let isNightMode = false;
 
 
 // the orientation of the device on app load
-var defaultOrientation;
+let defaultOrientation;
 
 
 // browser agnostic orientation
 export function getBrowserOrientation() {
-    var orientation;
+    let orientation;
     if (screen.orientation && screen.orientation.type) {
     orientation = screen.orientation.type;
     } else {
@@ -150,13 +150,13 @@ export function browserExitFullscreen() {
 
 // called on device orientation change
 export function onHeadingChange(event) {
-    var heading = event.alpha;
+    let heading = event.alpha;
 
     if (typeof event.webkitCompassHeading !== "undefined") {
     heading = event.webkitCompassHeading; //iOS non-standard
     }
 
-    var orientation = getBrowserOrientation();
+    let orientation = getBrowserOrientation();
 
     if (typeof heading !== "undefined" && heading !== null) { // && typeof orientation !== "undefined") {
     // we have a browser that reports device heading and orientation
@@ -168,13 +168,13 @@ export function onHeadingChange(event) {
 
 
     // what adjustment we have to add to rotation to allow for current device orientation
-    var adjustment = 0;
+    let adjustment = 0;
     if (defaultOrientation === "landscape") {
         adjustment -= 90;
     }
 
     if (typeof orientation !== "undefined") {
-        var currentOrientation = orientation.split("-");
+        let currentOrientation = orientation.split("-");
 
         if (defaultOrientation !== currentOrientation[0]) {
         if (defaultOrientation === "landscape") {
@@ -191,7 +191,7 @@ export function onHeadingChange(event) {
 
     positionCurrent.hng = heading + adjustment;
 
-    var phase = positionCurrent.hng < 0 ? 360 + positionCurrent.hng : positionCurrent.hng;
+    let phase = positionCurrent.hng < 0 ? 360 + positionCurrent.hng : positionCurrent.hng;
     positionHng.textContent = (360 - phase | 0) + "°";
 
 
@@ -346,7 +346,7 @@ export function popupOpenFromClick(event) {
 }
 
 export function popupOpen(name) {
-    var i;
+    let i;
     for (i=0; i<popupInners.length; i++) {
     popupInners[i].classList.add("popup__inner--hide");
     }
@@ -364,13 +364,13 @@ export function popupContentsClick(event) {
 }
 
 export function decimalToSexagesimal(decimal, type) {
-    var degrees = decimal | 0;
-    var fraction = Math.abs(decimal - degrees);
-    var minutes = (fraction * 60) | 0;
-    var seconds = (fraction * 3600 - minutes * 60) | 0;
+    let degrees = decimal | 0;
+    let fraction = Math.abs(decimal - degrees);
+    let minutes = (fraction * 60) | 0;
+    let seconds = (fraction * 3600 - minutes * 60) | 0;
 
-    var direction = "";
-    var positive = degrees > 0;
+    let direction = "";
+    let positive = degrees > 0;
     degrees = Math.abs(degrees);
     switch (type) {
     case "lat":
@@ -404,7 +404,7 @@ btnLockOrientation.addEventListener("click", toggleOrientationLock);
 btnNightmode.addEventListener("click", toggleNightmode);
 btnMap.addEventListener("click", openMap);
 
-var i;
+let i;
 for (i=0; i<btnsPopup.length; i++) {
     btnsPopup[i].addEventListener("click", popupOpenFromClick);
 }

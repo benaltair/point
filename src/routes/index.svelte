@@ -152,7 +152,7 @@
 	}
 
 	.compass > .my-point {
-		opacity: 1;
+		opacity: 0;
 		--ring-size: 93%;
 		width: var(--ring-size);
 		height: var(--ring-size);
@@ -167,7 +167,7 @@
 		margin-bottom: auto;
 	}
 
-	:not(.supported) {
+	.compass:not(.supported) {
 		pointer-events: none;
 		opacity: 0.4;
 	}

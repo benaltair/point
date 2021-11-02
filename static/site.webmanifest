@@ -6,6 +6,7 @@
     "start_url": "/",
     "name": "Bah\u00e1\u2019\u00ed Qiblih Locator",
     "short_name": "Qiblih",
+    "description": "A minimalist app that locates the Bah\u00e1\u2019\u00ed Qiblih from anywhere in the world.",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

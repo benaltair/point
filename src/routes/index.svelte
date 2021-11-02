@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import { browser } from '$app/env';
+	import { browser, dev } from '$app/env';
 
 	let compassCircle: HTMLElement;
 	let myPoint: HTMLElement;
@@ -82,7 +82,7 @@
 </script>
 
 <svelte:window on:deviceorientationabsolute={handler} />
-{#if supported}
+{#if supported || dev}
 	<div class="compass">
 		<div class="arrow" />
 		<div class="compass-circle" bind:this={compassCircle} />

@@ -421,6 +421,21 @@
 {/if}
 
 <style>
+	:global(body)::before {
+		content: '';
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		z-index: -1;
+		opacity: 0.3;
+        background-color: var(--bg);
+		background-image: url('/shrine.jpg');
+		background-size: cover;
+		background-position: center;
+		box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
+		filter: blur(10px);
+	}
+
 	:global(body) {
 		--padding: 1em;
 		--inner-height: calc(100vh - var(--padding) * 2);

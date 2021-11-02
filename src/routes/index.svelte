@@ -6,11 +6,12 @@
 	import { browser, dev } from '$app/env';
 	let compassCircle: HTMLElement;
 	let myPoint: HTMLElement;
+	let body: HTMLElement = document.querySelector('body');
 	let compass: number;
 	let supported = window.DeviceOrientationEvent && 'ontouchstart' in window;
+	let pointed: boolean = false;
 	const isIOS =
 		navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/);
-	let pointedAtTarget: boolean = false;
 	if (isIOS) {
 		supported = false;
 	}
@@ -38,17 +39,17 @@
 		compass = e.webkitCompassHeading || Math.abs(e.alpha - 360);
 		compassCircle.style.transform = `translate(-50%, -50%) rotate(${-compass}deg)`;
 
-		// ±10 degree
+		// ±7 degrees
 		if (
-			(pointDegree < Math.abs(compass) && pointDegree + 10 > Math.abs(compass)) ||
-			pointDegree > Math.abs(compass + 10) ||
+			(pointDegree < Math.abs(compass) && pointDegree + 7 > Math.abs(compass)) ||
+			pointDegree > Math.abs(compass + 7) ||
 			pointDegree < Math.abs(compass)
 		) {
-			myPoint.style.opacity = '0';
-			pointedAtTarget = false;
+			pointed = false;
+			body.setAttribute('data-pointed', pointed.toString());
 		} else if (pointDegree) {
-			myPoint.style.opacity = '1';
-			pointedAtTarget = true;
+			pointed = true;
+			body.setAttribute('data-pointed', pointed.toString());
 		}
 	}
 
@@ -87,11 +88,12 @@
 </script>
 
 <svelte:window on:deviceorientationabsolute={handler} />
+<svelte:body bind:this={body} />
 
 {#if !supported}
 	<p class="notice">No compass detected.</p>
 {/if}
-<div class="compass" class:supported={supported || dev}>
+<div class="compass" class:supported={supported || dev} class:fade={pointed}>
 	<div class="arrow" />
 	<div class="compass-circle" bind:this={compassCircle}>
 		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 500 493">
@@ -417,7 +419,7 @@
 		</svg>
 	</div>
 
-	<div class="my-point" bind:this={myPoint} class:pointedAtTarget />
+	<div class="my-point" bind:this={myPoint} class:pointed />
 </div>
 {#if isIOS}
 	<button class="start-btn" on:click={startCompass}>Start Compass</button>
@@ -430,25 +432,26 @@
 		height: 100%;
 		width: 100%;
 		z-index: -1;
-		opacity: 0.3;
+		opacity: 0.4;
 		background-color: var(--bg);
 		background-image: url('/shrine.jpg');
 		background-size: cover;
 		background-position: center;
 		box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
-		filter: blur(10px);
-		transition: all var(--transition-speed) ease;
+		filter: blur(20px);
+		transition: all calc(var(--transition-speed)) ease-in-out;
 	}
 
-	:global(body).pointedAtTarget::before {
-		filter: blur(0);
-		opacity: 0.5;
+	:global(body[data-pointed='true'])::before {
+		filter: blur(0px);
+		opacity: 0.95;
+		transform: scale(1.03);
 	}
 
 	:global(body) {
 		--padding: 1em;
 		--inner-height: calc(100vh - var(--padding) * 2);
-		--transition-speed: 0.25s;
+		--transition-speed: 0.5s;
 		display: grid;
 		position: relative;
 		place-items: center;
@@ -458,6 +461,12 @@
 		width: 100vw;
 		margin: 0 auto;
 		font-family: sans-serif;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global(body) {
+			--transition-speed: 0s;
+		}
 	}
 
 	p.notice {
@@ -479,6 +488,10 @@
 		margin: auto;
 	}
 
+	.compass.fade {
+		opacity: 0.5;
+	}
+
 	.compass > .arrow {
 		position: absolute;
 		width: 0;
@@ -488,7 +501,7 @@
 		transform: translateX(-50%);
 		border-style: solid;
 		border-width: 30px 20px 0 20px;
-		border-color: red transparent transparent transparent;
+		border-color: var(--accent) transparent transparent transparent;
 		border-radius: 50%;
 		z-index: 1;
 	}
@@ -517,9 +530,13 @@
 		width: var(--ring-size);
 		height: var(--ring-size);
 		border: rgba(8, 223, 69, 0.836) 1.5em solid;
-		background: rgba(8, 223, 69, 0.24);
+		background: rgba(8, 223, 69, 0.1);
 		border-radius: 50%;
-		transition: opacity var(--transition-speed) ease-out;
+		transition: opacity calc(var(--transition-speed) * 80%) ease-in;
+	}
+
+	.compass > .my-point.pointed {
+		opacity: 1;
 	}
 
 	.start-btn {

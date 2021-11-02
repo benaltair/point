@@ -1,6 +1,6 @@
-# Baha'i Quiblih Locator
+# Baha'i Qiblih Locator
 
-A progressive web app (PWA) using modern web APIs and a bit of math to point to the Baha'i Quiblih in Bahji. This is a quick personal project to fulfil a need since other apps have been working less reliably. Issues and PRs are welcome.
+A progressive web app (PWA) using modern web APIs and a bit of math to point to the Baha'i Qiblih in Bahji. This is a quick personal project to fulfil a need since other apps have been working less reliably. Issues and PRs are welcome.
 
 The app is built using [Svelte Kit](https://kit.svelte.dev/), a modern application framework powered by [Svelte](https://svelte.dev/).
 

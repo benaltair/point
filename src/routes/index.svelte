@@ -8,7 +8,7 @@
 	let compassCircle: HTMLElement;
 	let myPoint: HTMLElement;
 	let compass: number;
-	$: supported = window.DeviceOrientationEvent && 'ontouchstart' in window;
+	let supported = window.DeviceOrientationEvent && 'ontouchstart' in window;
 	const isIOS =
 		navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/);
 
@@ -23,10 +23,11 @@
 					if (response === 'granted') {
 						window.addEventListener('deviceorientation', handler, true);
 					} else {
-						alert('has to be allowed!');
+						alert('This permission is required to show the compass');
+						supported = false;
 					}
 				})
-				.catch(() => alert('not supported'));
+				.catch(() => alert('Not supported'));
 		}
 	}
 
@@ -81,17 +82,16 @@
 </script>
 
 <svelte:window on:deviceorientationabsolute={handler} />
-{#if supported || dev}
-	<div class="compass">
-		<div class="arrow" />
-		<div class="compass-circle" bind:this={compassCircle} />
-		<div class="my-point" bind:this={myPoint} />
-	</div>
-	{#if isIOS}
-		<button class="start-btn" on:click={startCompass}>Start compass</button>
-	{/if}
-{:else}
-	<p>Sorry, this device is not supported.</p>
+<div class="compass" class:supported={supported || dev}>
+	<div class="arrow" />
+	<div class="compass-circle" bind:this={compassCircle} />
+	<div class="my-point" bind:this={myPoint} />
+</div>
+{#if isIOS}
+	<button class="start-btn" on:click={startCompass}>Start compass</button>
+{/if}
+{#if !supported}
+	<p class="notice">No compass detected.</p>
 {/if}
 
 <style>
@@ -102,6 +102,16 @@
 		text-align: center;
 		padding: 0.5em 1em;
 		max-height: 100vh;
+		font-family: sans-serif;
+	}
+
+	p.notice {
+		opacity: 1;
+		padding: 2em;
+		margin: 2em;
+		background-color: #fa9806;
+		color: white;
+		border-radius: 1em;
 	}
 
 	.compass {
@@ -153,5 +163,10 @@
 	.start-btn {
 		margin-top: 2em;
 		margin-bottom: auto;
+	}
+
+	:not(.supported) {
+		pointer-events: none;
+		opacity: 0.4;
 	}
 </style>

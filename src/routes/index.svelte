@@ -152,12 +152,14 @@
 	}
 
 	.compass > .my-point {
-		opacity: 0;
-		width: 20%;
-		height: 20%;
-		background: rgb(8, 223, 69);
+		opacity: 1;
+		--ring-size: 93%;
+		width: var(--ring-size);
+		height: var(--ring-size);
+		border: rgb(8, 223, 69) 2em solid;
+		background: rgba(8, 223, 69, 0.171);
 		border-radius: 50%;
-		transition: opacity 0.5s ease-out;
+		transition: opacity 0.25s ease-out;
 	}
 
 	.start-btn {

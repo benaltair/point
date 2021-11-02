@@ -101,7 +101,7 @@
 	}
 
 	.compass {
-		--size: 80vw;
+		--size: min(80vh, 80vw);
 		position: relative;
 		width: var(--size);
 		height: var(--size);

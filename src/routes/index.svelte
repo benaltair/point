@@ -10,7 +10,9 @@
 	let supported = window.DeviceOrientationEvent && 'ontouchstart' in window;
 	const isIOS =
 		navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/);
-
+	if (isIOS) {
+		supported = false;
+	}
 	function init() {
 		navigator.geolocation.getCurrentPosition(locationHandler);
 	}
@@ -20,6 +22,7 @@
 			DeviceOrientationEvent.requestPermission()
 				.then((response) => {
 					if (response === 'granted') {
+						supported = true;
 						window.addEventListener('deviceorientation', handler, true);
 					} else {
 						alert('This permission is required to show the compass');
@@ -81,8 +84,11 @@
 </script>
 
 <svelte:window on:deviceorientationabsolute={handler} />
+
+{#if !supported}
+	<p class="notice">No compass detected.</p>
+{/if}
 <div class="compass" class:supported={supported || dev}>
-	<!-- <img src={compassGraphic} alt="" /> -->
 	<div class="arrow" />
 	<div class="compass-circle" bind:this={compassCircle}>
 		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 500 493">
@@ -411,10 +417,7 @@
 	<div class="my-point" bind:this={myPoint} />
 </div>
 {#if isIOS}
-	<button class="start-btn" on:click={startCompass}>Start compass</button>
-{/if}
-{#if !supported}
-	<p class="notice">No compass detected.</p>
+	<button class="start-btn" on:click={startCompass}>Start Compass</button>
 {/if}
 
 <style>
@@ -501,6 +504,8 @@
 	.start-btn {
 		margin-top: 2em;
 		margin-bottom: auto;
+		padding: 1em;
+		min-width: 15ch;
 	}
 
 	.compass:not(.supported) {

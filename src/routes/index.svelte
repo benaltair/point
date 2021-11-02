@@ -10,6 +10,7 @@
 	let supported = window.DeviceOrientationEvent && 'ontouchstart' in window;
 	const isIOS =
 		navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/);
+	let pointedAtTarget: boolean = false;
 	if (isIOS) {
 		supported = false;
 	}
@@ -44,8 +45,10 @@
 			pointDegree < Math.abs(compass)
 		) {
 			myPoint.style.opacity = '0';
+			pointedAtTarget = false;
 		} else if (pointDegree) {
 			myPoint.style.opacity = '1';
+			pointedAtTarget = true;
 		}
 	}
 
@@ -414,7 +417,7 @@
 		</svg>
 	</div>
 
-	<div class="my-point" bind:this={myPoint} />
+	<div class="my-point" bind:this={myPoint} class:pointedAtTarget />
 </div>
 {#if isIOS}
 	<button class="start-btn" on:click={startCompass}>Start Compass</button>
@@ -428,17 +431,24 @@
 		width: 100%;
 		z-index: -1;
 		opacity: 0.3;
-        background-color: var(--bg);
+		background-color: var(--bg);
 		background-image: url('/shrine.jpg');
 		background-size: cover;
 		background-position: center;
 		box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
 		filter: blur(10px);
+		transition: all var(--transition-speed) ease;
+	}
+
+	:global(body).pointedAtTarget::before {
+		filter: blur(0);
+		opacity: 0.5;
 	}
 
 	:global(body) {
 		--padding: 1em;
 		--inner-height: calc(100vh - var(--padding) * 2);
+		--transition-speed: 0.25s;
 		display: grid;
 		position: relative;
 		place-items: center;
@@ -509,7 +519,7 @@
 		border: rgba(8, 223, 69, 0.836) 1.5em solid;
 		background: rgba(8, 223, 69, 0.24);
 		border-radius: 50%;
-		transition: opacity 0.25s ease-out;
+		transition: opacity var(--transition-speed) ease-out;
 	}
 
 	.start-btn {

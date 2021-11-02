@@ -8,7 +8,7 @@
 	let compassCircle: HTMLElement;
 	let myPoint: HTMLElement;
 	let compass: number;
-	let supported: boolean = false;
+	$: supported = window.DeviceOrientationEvent && 'ontouchstart' in window;
 	const isIOS =
 		navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/);
 
@@ -31,7 +31,6 @@
 	}
 
 	function handler(e) {
-		if (!e) supported = false;
 		compass = e.webkitCompassHeading || Math.abs(e.alpha - 360);
 		compassCircle.style.transform = `translate(-50%, -50%) rotate(${-compass}deg)`;
 

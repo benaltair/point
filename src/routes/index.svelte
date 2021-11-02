@@ -8,6 +8,7 @@
 	let compassCircle: HTMLElement;
 	let myPoint: HTMLElement;
 	let compass: number;
+	let supported: boolean = false;
 	const isIOS =
 		navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/);
 
@@ -30,6 +31,7 @@
 	}
 
 	function handler(e) {
+		if (!e) supported = false;
 		compass = e.webkitCompassHeading || Math.abs(e.alpha - 360);
 		compassCircle.style.transform = `translate(-50%, -50%) rotate(${-compass}deg)`;
 
@@ -80,14 +82,17 @@
 </script>
 
 <svelte:window on:deviceorientationabsolute={handler} />
-
-<div class="compass">
-	<div class="arrow" />
-	<div class="compass-circle" bind:this={compassCircle} />
-	<div class="my-point" bind:this={myPoint} />
-</div>
-{#if isIOS}
-	<button class="start-btn" on:click={startCompass}>Start compass</button>
+{#if supported}
+	<div class="compass">
+		<div class="arrow" />
+		<div class="compass-circle" bind:this={compassCircle} />
+		<div class="my-point" bind:this={myPoint} />
+	</div>
+	{#if isIOS}
+		<button class="start-btn" on:click={startCompass}>Start compass</button>
+	{/if}
+{:else}
+	<p>Sorry, this device is not supported.</p>
 {/if}
 
 <style>

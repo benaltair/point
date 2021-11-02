@@ -437,7 +437,7 @@
 
 	p.notice {
 		opacity: 1;
-		padding: 2em;
+		padding: min(2em, 5vw);
 		margin: 2em;
 		background-color: #fa9806;
 		color: white;

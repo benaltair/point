@@ -1,6 +1,11 @@
 {
+    "theme_color": "#F1A208",
+    "background_color": "#005377",
+    "display": "fullscreen",
+    "orientation": "portrait",
+    "start_url": "/",
     "name": "Bah\u00e1\u2019\u00ed Qiblih Locator",
-    "short_name": "Bah\u00e1\u2019\u00ed Qiblih Locator",
+    "short_name": "Qiblih",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -12,10 +17,5 @@
             "sizes": "512x512",
             "type": "image/png"
         }
-    ],
-    "theme_color": "#005377",
-    "background_color": "#005377",
-    "start_url": "/",
-    "display": "standalone",
-    "orientation": "portrait"
+    ]
 }

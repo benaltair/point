@@ -421,10 +421,6 @@
 {/if}
 
 <style>
-	:global(*) {
-		box-sizing: border-box;
-	}
-
 	:global(body) {
 		--padding: 1em;
 		--inner-height: calc(100vh - var(--padding) * 2);
@@ -435,7 +431,7 @@
 		padding: var(--padding);
 		height: 100vh;
 		width: 100vw;
-		margin: 0;
+		margin: 0 auto;
 		font-family: sans-serif;
 	}
 

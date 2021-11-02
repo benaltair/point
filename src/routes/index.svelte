@@ -4,7 +4,6 @@
 
 <script lang="ts">
 	import { browser, dev } from '$app/env';
-
 	let compassCircle: HTMLElement;
 	let myPoint: HTMLElement;
 	let compass: number;
@@ -95,13 +94,21 @@
 {/if}
 
 <style>
+	:global(*) {
+		box-sizing: border-box;
+	}
+
 	:global(body) {
-		display: flex;
-		flex-direction: column;
+		--padding: 1em;
+		--inner-height: calc(100vh - var(--padding) * 2);
+		display: grid;
+		position: relative;
 		place-items: center;
 		text-align: center;
-		padding: 0.5em 1em;
-		max-height: 100vh;
+		padding: var(--padding);
+		height: 100vh;
+		width: 100vw;
+		margin: 0;
 		font-family: sans-serif;
 	}
 
@@ -115,7 +122,7 @@
 	}
 
 	.compass {
-		--size: min(80vh, 80vw);
+		--size: min(60vh, 80vw);
 		position: relative;
 		width: var(--size);
 		height: var(--size);

@@ -5,7 +5,7 @@
 <script lang="ts">
 	import { browser, dev } from '$app/env';
 	let compassCircle: HTMLElement;
-	let body: HTMLElement = document.querySelector('body');
+	let body: HTMLBodyElement = document.querySelector('body');
 	let compass: number;
 	let supported = window.DeviceOrientationEvent && 'ontouchstart' in window;
 	let pointed: boolean = false;
@@ -121,6 +121,7 @@
 				}
 				.st3 {
 					font-family: Liberation Sans, Arial;
+					fill: var(--text);
 				}
 				.st4 {
 					font-size: 48px;
@@ -507,14 +508,14 @@
 	.compass > .arrow {
 		position: absolute;
 		width: 0;
-		height: 0;
-		top: -20px;
+		height: 1.5em;
+		top: -0.5em;
 		left: 50%;
 		transform: translateX(-50%);
 		border-style: solid;
-		border-width: 30px 20px 0 20px;
-		border-color: var(--accent) transparent transparent transparent;
-		border-radius: 50%;
+		border-width: 2px;
+		border-color: var(--accent);
+		border-radius: 1em;
 		z-index: 1;
 	}
 

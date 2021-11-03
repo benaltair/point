@@ -427,7 +427,7 @@
 		</svg>
 	</div>
 
-	<div class="my-point" class:pointed />
+	<!-- <div class="my-point" class:pointed /> -->
 </div>
 {#if isIOS}
 	<button class="start-btn" on:click={startCompass}>Start Compass</button>
@@ -446,20 +446,24 @@
 		background-size: cover;
 		background-position: center;
 		box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
-		filter: blur(20px);
-		transition: all calc(var(--transition-speed)) ease-in-out;
+		filter: blur(9vw);
+		--transition-delay: 0.2s;
+		transition: transform calc(var(--transition-speed)) ease-in-out,
+			opacity calc(var(--transition-speed)) ease-in-out,
+			filter calc(var(--transition-speed) - var(--transition-delay)) ease-out
+				var(--transition-delay);
 	}
 
 	:global(body[data-pointed='true'])::before {
 		filter: blur(0px);
 		opacity: 0.95;
-		transform: scale(1.03);
+		transform: scale(1.25);
 	}
 
 	:global(body) {
 		--padding: 1em;
 		--inner-height: calc(100vh - var(--padding) * 2);
-		--transition-speed: 0.5s;
+		--transition-speed: 1.3s;
 		display: grid;
 		position: relative;
 		place-items: center;
@@ -492,7 +496,7 @@
 		width: var(--size);
 		height: var(--size);
 		border-radius: 50%;
-		box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+		/* box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); */
 		margin: auto;
 	}
 

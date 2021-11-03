@@ -5,11 +5,11 @@
 <script lang="ts">
 	import { browser, dev } from '$app/env';
 	let compassCircle: HTMLElement;
-	let myPoint: HTMLElement;
 	let body: HTMLElement = document.querySelector('body');
 	let compass: number;
 	let supported = window.DeviceOrientationEvent && 'ontouchstart' in window;
 	let pointed: boolean = false;
+	let statusProxy: boolean = false;
 	const isIOS =
 		navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/);
 	if (isIOS) {
@@ -35,19 +35,27 @@
 		}
 	}
 
+	function vibrate(status: boolean, duration: number) {
+		if (status != statusProxy) {
+			navigator.vibrate(duration);
+		}
+		statusProxy = status;
+	}
+
 	function handler(e) {
 		compass = e.webkitCompassHeading || Math.abs(e.alpha - 360);
 		compassCircle.style.transform = `translate(-50%, -50%) rotate(${-compass}deg)`;
 
-		// ±7 degrees
+		// ±10 degrees
 		if (
-			(pointDegree < Math.abs(compass) && pointDegree + 7 > Math.abs(compass)) ||
-			pointDegree > Math.abs(compass + 7) ||
+			(pointDegree < Math.abs(compass) && pointDegree + 10 > Math.abs(compass)) ||
+			pointDegree > Math.abs(compass + 10) ||
 			pointDegree < Math.abs(compass)
 		) {
 			pointed = false;
 			body.setAttribute('data-pointed', pointed.toString());
 		} else if (pointDegree) {
+			vibrate(pointed, 19);
 			pointed = true;
 			body.setAttribute('data-pointed', pointed.toString());
 		}
@@ -419,7 +427,7 @@
 		</svg>
 	</div>
 
-	<div class="my-point" bind:this={myPoint} class:pointed />
+	<div class="my-point" class:pointed />
 </div>
 {#if isIOS}
 	<button class="start-btn" on:click={startCompass}>Start Compass</button>
